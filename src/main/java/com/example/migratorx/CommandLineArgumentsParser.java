@@ -1,8 +1,12 @@
 package com.example.migratorx;
 
 import org.apache.commons.cli.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CommandLineArgumentsParser {
+
+    private final Logger log = LoggerFactory.getLogger(CommandLineArgumentsParser.class);
 
     private final String[] args;
     private final Options options = new Options();
@@ -21,7 +25,7 @@ public class CommandLineArgumentsParser {
         try {
             cmd = parser.parse(options, args);
         } catch (ParseException e) {
-            System.out.println(e.getMessage());
+            log.error("An error occurred during parsing of commandline {}", e.getMessage());
             formatter.printHelp("migratorx", options);
             System.exit(1);
             return null;

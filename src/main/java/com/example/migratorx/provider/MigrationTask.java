@@ -6,6 +6,7 @@ public class MigrationTask {
     private String username;
     private String password;
     private String migrationScriptLocation;
+    private String schemaHistoryTable;
 
     public MigrationTask() {
     }
@@ -15,6 +16,15 @@ public class MigrationTask {
         this.username = username;
         this.password = password;
         this.migrationScriptLocation = migrationScriptLocation;
+        this.schemaHistoryTable = "flyway_schema_history";
+    }
+
+    public MigrationTask(String uri, String username, String password, String migrationScriptLocation, String schemaHistoryTable) {
+        this.uri = uri;
+        this.username = username;
+        this.password = password;
+        this.migrationScriptLocation = migrationScriptLocation;
+        this.schemaHistoryTable = schemaHistoryTable;
     }
 
     public String getUri() {
@@ -47,5 +57,13 @@ public class MigrationTask {
 
     public void setMigrationScriptLocation(String migrationScriptLocation) {
         this.migrationScriptLocation = migrationScriptLocation;
+    }
+
+    public String getSchemaHistoryTable() {
+        return schemaHistoryTable;
+    }
+
+    public void setSchemaHistoryTable(String schemaHistoryTable) {
+        this.schemaHistoryTable = schemaHistoryTable;
     }
 }

@@ -11,6 +11,7 @@ public class MigratorXFlyway {
         flyway = Flyway.configure()
                 .dataSource(migrationTask.getUri(), migrationTask.getUsername(), migrationTask.getPassword())
                 .locations(migrationTask.getMigrationScriptLocation())
+                .table(migrationTask.getSchemaHistoryTable())
                 .load();
     }
 
