@@ -1,0 +1,14 @@
+[
+  {
+    "uri": "test-uri-1",
+    "username": "username-test-1",
+    "password": "password-test-1",
+    "migrationScriptLocation": "migrationScriptLocation-test-1.json"
+  },
+  {
+    "uri": "test-uri-2",
+    "username": "username-test-2",
+    "password": "password-test-2",
+    "migrationScriptLocation": "migrationScriptLocation-test-2.json"
+  }
+]
