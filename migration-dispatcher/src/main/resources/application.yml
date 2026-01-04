@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: migration-dispatcher
+  
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:migratorx}
+    password: ${SPRING_RABBITMQ_PASSWORD:migratorx123}
+
+# Migration configuration
+migrations:
+  exchange: ${MIGRATIONS_EXCHANGE:migrations.exchange}
+  routing:
+    key: ${MIGRATIONS_ROUTING_KEY:migrations.request}
+
+logging:
+  level:
+    com.migratorx.dispatcher: INFO
+    org.springframework.amqp: INFO

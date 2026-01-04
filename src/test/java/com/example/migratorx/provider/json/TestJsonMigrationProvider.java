@@ -28,10 +28,10 @@ public class TestJsonMigrationProvider {
 
         // Assert
         Assertions.assertEquals(1, migrationTasks.size());
-        Assertions.assertEquals("test-uri", migrationTasks.getFirst().getUri());
-        Assertions.assertEquals("username-test", migrationTasks.getFirst().getUsername());
-        Assertions.assertEquals("password-test", migrationTasks.getFirst().getPassword());
-        Assertions.assertEquals("migrationScriptLocation-test.json", migrationTasks.getFirst().getMigrationScriptLocation());
+        Assertions.assertEquals("test-uri", migrationTasks.get(0).getUri());
+        Assertions.assertEquals("username-test", migrationTasks.get(0).getUsername());
+        Assertions.assertEquals("password-test", migrationTasks.get(0).getPassword());
+        Assertions.assertEquals("migrationScriptLocation-test.json", migrationTasks.get(0).getMigrationScriptLocation());
     }
 
     @Test
@@ -45,10 +45,10 @@ public class TestJsonMigrationProvider {
         // Assert
         Assertions.assertEquals(2, migrationTasks.size());
 
-        Assertions.assertEquals("test-uri-1", migrationTasks.getFirst().getUri());
-        Assertions.assertEquals("username-test-1", migrationTasks.getFirst().getUsername());
-        Assertions.assertEquals("password-test-1", migrationTasks.getFirst().getPassword());
-        Assertions.assertEquals("migrationScriptLocation-test-1.json", migrationTasks.getFirst().getMigrationScriptLocation());
+        Assertions.assertEquals("test-uri-1", migrationTasks.get(0).getUri());
+        Assertions.assertEquals("username-test-1", migrationTasks.get(0).getUsername());
+        Assertions.assertEquals("password-test-1", migrationTasks.get(0).getPassword());
+        Assertions.assertEquals("migrationScriptLocation-test-1.json", migrationTasks.get(0).getMigrationScriptLocation());
 
         Assertions.assertEquals("test-uri-2", migrationTasks.get(1).getUri());
         Assertions.assertEquals("username-test-2", migrationTasks.get(1).getUsername());
