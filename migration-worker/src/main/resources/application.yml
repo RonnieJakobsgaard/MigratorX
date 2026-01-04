@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: migration-worker
+  
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/migrations}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+    listener:
+      simple:
+        acknowledge-mode: manual
+        default-requeue-rejected: false
+  
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+# Migration configuration
+migrations:
+  exchange: ${MIGRATIONS_EXCHANGE:migrations.exchange}
+  queue: ${MIGRATIONS_QUEUE:migrations.worker.queue}
+  retry:
+    queue: ${MIGRATIONS_RETRY_QUEUE:migrations.retry.queue}
+  failed:
+    queue: ${MIGRATIONS_FAILED_QUEUE:migrations.failed.queue}
+
+migration:
+  retry:
+    attempts: ${MIGRATION_RETRY_ATTEMPTS:3}
+    ttl: ${MIGRATION_RETRY_TTL:30000}
+
+logging:
+  level:
+    com.migratorx.worker: INFO
+    org.springframework.amqp: INFO
