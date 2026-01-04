@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: migration-worker-test
+  
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+  
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+migrations:
+  exchange: migrations.exchange.test
+  queue: migrations.worker.queue.test
+  retry:
+    queue: migrations.retry.queue.test
+    ttl: 1000
+  failed:
+    queue: migrations.failed.queue.test
+
+migration:
+  retry:
+    attempts: 3
+    ttl: 1000
+
+logging:
+  level:
+    com.example.migratorx.worker: DEBUG
