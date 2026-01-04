@@ -12,6 +12,5 @@ CREATE TABLE IF NOT EXISTS migration_history (
     error TEXT
 );
 
--- Index for faster lookups
+-- Index for faster status lookups
 CREATE INDEX IF NOT EXISTS idx_migration_history_status ON migration_history(status);
-CREATE INDEX IF NOT EXISTS idx_migration_history_migration_id ON migration_history(migration_id);

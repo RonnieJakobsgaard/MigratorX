@@ -50,12 +50,15 @@ class MigrationServiceTest {
             eq("test-migration-1")
         )).thenReturn(0);
         
-        // Mock: successful claim
-        when(jdbcTemplate.queryForObject(
-            contains("SELECT COUNT(*) FROM migration_history WHERE migration_id = ? AND node_id = ?"),
-            eq(Integer.class),
-            anyString(),
-            anyString()
+        // Mock: successful insert (claim)
+        when(jdbcTemplate.update(
+            contains("INSERT INTO migration_history"),
+            eq("test-migration-1"),
+            eq("1.0.0"),
+            anyString(), // checksum
+            anyString(), // node_id
+            eq("testuser"),
+            any() // timestamp
         )).thenReturn(1);
         
         // Act
@@ -173,11 +176,14 @@ class MigrationServiceTest {
         )).thenReturn(0);
         
         // Mock: successful claim
-        when(jdbcTemplate.queryForObject(
-            contains("SELECT COUNT(*) FROM migration_history WHERE migration_id = ? AND node_id = ?"),
-            eq(Integer.class),
+        when(jdbcTemplate.update(
+            contains("INSERT INTO migration_history"),
+            eq("test-migration-4"),
             anyString(),
-            anyString()
+            anyString(),
+            anyString(),
+            any(),
+            any()
         )).thenReturn(1);
         
         // Mock: SQL execution fails
@@ -217,12 +223,15 @@ class MigrationServiceTest {
             eq("test-migration-5")
         )).thenReturn(0);
         
-        // Mock: claim verification shows we didn't get it
-        when(jdbcTemplate.queryForObject(
-            contains("SELECT COUNT(*) FROM migration_history WHERE migration_id = ? AND node_id = ?"),
-            eq(Integer.class),
+        // Mock: claim fails (returns 0 rows inserted)
+        when(jdbcTemplate.update(
+            contains("INSERT INTO migration_history"),
+            eq("test-migration-5"),
             anyString(),
-            anyString()
+            anyString(),
+            anyString(),
+            any(),
+            any()
         )).thenReturn(0);
         
         // Act

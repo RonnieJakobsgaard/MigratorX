@@ -34,6 +34,9 @@ public class RabbitConfig {
     @Value("${migrations.routing.key:migrations.request}")
     private String routingKey;
     
+    @Value("${migrations.retry.routing.key:migrations.retry}")
+    private String retryRoutingKey;
+    
     @Value("${migrations.failed.routing.key:migrations.failed}")
     private String failedRoutingKey;
     
@@ -48,10 +51,15 @@ public class RabbitConfig {
                 .build();
     }
     
-    // Worker Queue
+    // Worker Queue with DLX for failed messages
     @Bean
     public Queue workerQueue() {
+        Map<String, Object> args = new HashMap<>();
+        args.put("x-dead-letter-exchange", exchangeName);
+        args.put("x-dead-letter-routing-key", retryRoutingKey);
+        
         return QueueBuilder.durable(workerQueueName)
+                .withArguments(args)
                 .build();
     }
     
@@ -87,7 +95,7 @@ public class RabbitConfig {
     public Binding retryBinding(Queue retryQueue, DirectExchange migrationsExchange) {
         return BindingBuilder.bind(retryQueue)
                 .to(migrationsExchange)
-                .with(routingKey);
+                .with(retryRoutingKey);
     }
     
     @Bean

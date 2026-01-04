@@ -71,10 +71,9 @@ public class MigrationService {
             String checksum = calculateChecksum(message.getPayload());
             String requestedBy = message.getMetadata().get("requestedBy");
             
-            jdbcTemplate.update(
+            int rowsInserted = jdbcTemplate.update(
                 "INSERT INTO migration_history (migration_id, version, checksum, status, node_id, requested_by, started_at) " +
-                "VALUES (?, ?, ?, 'IN_PROGRESS', ?, ?, ?) " +
-                "ON CONFLICT (migration_id) DO NOTHING",
+                "VALUES (?, ?, ?, 'IN_PROGRESS', ?, ?, ?)",
                 migrationId,
                 message.getVersion(),
                 checksum,
@@ -83,15 +82,7 @@ public class MigrationService {
                 Timestamp.from(Instant.now())
             );
             
-            // Verify we successfully claimed it
-            Integer rowsAffected = jdbcTemplate.queryForObject(
-                "SELECT COUNT(*) FROM migration_history WHERE migration_id = ? AND node_id = ? AND status = 'IN_PROGRESS'",
-                Integer.class,
-                migrationId,
-                nodeId
-            );
-            
-            if (rowsAffected == null || rowsAffected == 0) {
+            if (rowsInserted == 0) {
                 logger.warn("Failed to claim migration {}, another worker claimed it", migrationId);
                 return false;
             }

@@ -20,6 +20,8 @@ migrations:
   queue: ${MIGRATIONS_QUEUE:migrations.worker.queue}
   retry:
     queue: ${MIGRATIONS_RETRY_QUEUE:migrations.retry.queue}
+    routing:
+      key: ${MIGRATIONS_RETRY_ROUTING_KEY:migrations.retry}
   failed:
     queue: ${MIGRATIONS_FAILED_QUEUE:migrations.failed.queue}
     routing:

@@ -77,15 +77,14 @@ public class MigrationListener {
                 logger.info("Retrying migration {} (attempt {}/{})", 
                     message.getMigrationId(), retryCount + 1, maxRetryAttempts);
                 
-                // Send to retry queue
+                // Nack without requeue - RabbitMQ will use DLX to route to retry queue
                 channel.basicNack(deliveryTag, false, false);
-                rabbitTemplate.convertAndSend(exchangeName, routingKey, message);
                 
             } else {
                 logger.error("Migration {} exceeded max retry attempts, sending to failed queue", 
                     message.getMigrationId());
                 
-                // Send to failed queue
+                // Nack and manually send to failed queue
                 channel.basicNack(deliveryTag, false, false);
                 rabbitTemplate.convertAndSend(exchangeName, failedRoutingKey, message);
             }

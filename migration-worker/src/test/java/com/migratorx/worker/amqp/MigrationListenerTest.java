@@ -132,6 +132,7 @@ class MigrationListenerTest {
         // Assert
         verify(migrationService).claimAndApplyMigration(message);
         verify(channel).basicNack(125L, false, false);
-        verify(rabbitTemplate).convertAndSend(anyString(), anyString(), eq(message));
+        // No longer manually sending to retry queue - RabbitMQ DLX handles it
+        verify(rabbitTemplate, never()).convertAndSend(anyString(), anyString(), any(MigrationMessage.class));
     }
 }
