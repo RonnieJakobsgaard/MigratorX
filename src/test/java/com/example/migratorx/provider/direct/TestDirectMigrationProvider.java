@@ -20,9 +20,9 @@ public class TestDirectMigrationProvider {
 
         // Assert
         Assertions.assertEquals(1, migrationTasks.size());
-        Assertions.assertEquals("jdbc:h2:mem:test", migrationTasks.getFirst().getUri());
-        Assertions.assertEquals("sa", migrationTasks.getFirst().getUsername());
-        Assertions.assertEquals("", migrationTasks.getFirst().getPassword());
-        Assertions.assertEquals("classpath:db/migration", migrationTasks.getFirst().getMigrationScriptLocation());
+        Assertions.assertEquals("jdbc:h2:mem:test", migrationTasks.get(0).getUri());
+        Assertions.assertEquals("sa", migrationTasks.get(0).getUsername());
+        Assertions.assertEquals("", migrationTasks.get(0).getPassword());
+        Assertions.assertEquals("classpath:db/migration", migrationTasks.get(0).getMigrationScriptLocation());
     }
 }
