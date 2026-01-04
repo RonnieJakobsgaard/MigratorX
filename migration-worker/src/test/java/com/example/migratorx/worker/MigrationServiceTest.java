@@ -107,9 +107,9 @@ class MigrationServiceTest {
         );
         assertEquals("APPLIED", status);
         
-        // Verify table was created
+        // Verify table was created (H2 stores table names in uppercase)
         Integer tableExists = jdbcTemplate.queryForObject(
-            "SELECT COUNT(*) FROM information_schema.tables WHERE table_name = ?",
+            "SELECT COUNT(*) FROM information_schema.tables WHERE UPPER(table_name) = UPPER(?)",
             Integer.class,
             "test_table"
         );

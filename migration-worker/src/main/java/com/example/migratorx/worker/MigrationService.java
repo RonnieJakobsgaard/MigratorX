@@ -11,6 +11,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Base64;
 
@@ -88,7 +89,7 @@ public class MigrationService {
                 message.getVersion(),
                 nodeId,
                 requestedBy,
-                Instant.now()
+                Timestamp.from(Instant.now())
             );
             
             log.info("Claimed migration: {} by node: {}", message.getMigrationId(), nodeId);
@@ -123,7 +124,7 @@ public class MigrationService {
             jdbcTemplate.update(
                 updateSql,
                 checksum,
-                Instant.now(),
+                Timestamp.from(Instant.now()),
                 message.getMigrationId()
             );
             
