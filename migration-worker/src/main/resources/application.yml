@@ -22,11 +22,10 @@ migrations:
     queue: ${MIGRATIONS_RETRY_QUEUE:migrations.retry.queue}
   failed:
     queue: ${MIGRATIONS_FAILED_QUEUE:migrations.failed.queue}
-  routing:
-    key: ${MIGRATIONS_ROUTING_KEY:migrations.request}
-  failed:
     routing:
       key: ${MIGRATIONS_FAILED_ROUTING_KEY:migrations.failed}
+  routing:
+    key: ${MIGRATIONS_ROUTING_KEY:migrations.request}
 
 migration:
   retry:
