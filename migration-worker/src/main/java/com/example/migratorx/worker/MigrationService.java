@@ -41,6 +41,13 @@ public class MigrationService {
         }
     }
 
+    /**
+     * Ensures migration_history table exists.
+     * 
+     * Note: This DDL is intentionally duplicated here (vs V000__create_migration_history.sql)
+     * because the worker needs to bootstrap its own tracking table programmatically on startup.
+     * The worker doesn't use Flyway for its own migrations.
+     */
     private void ensureMigrationHistoryTable() {
         String createTableSql = """
             CREATE TABLE IF NOT EXISTS migration_history (
